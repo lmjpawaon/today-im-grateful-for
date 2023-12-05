@@ -7,7 +7,7 @@ const EntryDetails: React.FC<{params: {id: string}}> = async ({params}) =>{
   const fetchEntries = async () => {
     const response = await fetch(`http://localhost:3000/api/journal/${id}`, {
       next: {
-        revalidate: 30
+        revalidate: 0
       }
     });
     return response.json()
