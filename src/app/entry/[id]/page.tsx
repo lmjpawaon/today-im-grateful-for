@@ -20,7 +20,16 @@ const EntryDetails: React.FC<{params: {id: string}}> = async ({params}) =>{
       <h1>Journal Entry {id}</h1>  
       <ul>
         {entries.map((entry: JournalType) => (
-          <li key={entry.id}>{entry.content}{entry.createdAt?.toString()}{entry.modifiedAt?.toString()}</li>
+          <li key={entry.id}>{entry.content}{entry.createdAt && (
+            <div>
+              Created At: {new Date(entry.createdAt).toISOString()}
+            </div>
+          )}
+          {entry.modifiedAt && (
+            <div>
+              Modified At: {new Date(entry.modifiedAt).toISOString()}
+            </div>
+          )}</li>
         ))}
       </ul>
     </div>
