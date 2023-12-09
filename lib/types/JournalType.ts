@@ -1,6 +1,7 @@
 export type JournalType = {
     id: string,
+    title?: string | undefined,
     content: string,
-    createdAt?: Date,
+    createdAt: Date,
     modifiedAt?: Date
 }
