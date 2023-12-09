@@ -3,20 +3,10 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function seed() {
-      // Seed some days
-      console.log('Creating days...');
-      const day1 = await prisma.day.create({
-        data: { date: new Date('2023-12-01') },
-      });
-  
-      const day2 = await prisma.day.create({
-        data: { date: new Date('2023-12-02') },
-      });
-  
       // Seed diary entries
       await prisma.journalEntry.create({
         data: 
-          { content: 'First entry for day 1', dayId: day1.id },
+          { title: 'My First Entry',content: 'First entry for day 1'},
       });
   
       console.log('Data seeding successful');
