@@ -29,7 +29,7 @@ export const createEntry = async (data: {title: string, content: string}) =>{
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data), // Send title and content data
+        body: JSON.stringify(data),
       });
     revalidatePath("/")
     redirect('/')
