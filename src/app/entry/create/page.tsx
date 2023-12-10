@@ -1,7 +1,7 @@
 "use client"
 
-import { redirect } from "next/navigation";
 import React, { useState } from "react";
+import { createEntry } from "../../actions";
 
 const CreateEntry: React.FC = () => {
   const [title, setTitle] = useState(""); // For storing title
@@ -20,18 +20,25 @@ const CreateEntry: React.FC = () => {
     event.preventDefault();
     setIsSubmitting(true);
 
-    try {
-      // Replace this with your actual API call or Prisma client usage
-      const response = await fetch("http://localhost:3000/api/journal", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ title, content }), // Send title and content data
-      });
+    // try {
+    //   // Replace this with your actual API call or Prisma client usage
+    //   const response = await fetch("http://localhost:3000/api/journal", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ title, content }), // Send title and content data
+    //   });
 
-      const data = await response.json();
+    //   const data = await response.json();
 
+      const data = {
+        title: title,
+        content: content
+      };
+
+    try{
+      await createEntry(data)
       // Handle successful creation (e.g., navigate, display success message)
       console.log("Entry created successfully!", data);
       setIsSubmitting(false);

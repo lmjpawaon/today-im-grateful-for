@@ -1,4 +1,5 @@
 "use client"
+import { editEntry, getSpecificEntry } from '../../../actions';
 import { useEffect, useState } from 'react';
 
 const EditEntry: React.FC<{ params: { id: string } }> = ({ params }) => {
@@ -10,8 +11,7 @@ const EditEntry: React.FC<{ params: { id: string } }> = ({ params }) => {
   useEffect(() => {
     const fetchEntry = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/journal/${id}`);
-        const entry = await response.json();
+        const entry = await getSpecificEntry(id)
         setTitle(entry[0]?.title || '');
         setContent(entry[0]?.content || '');
       } catch (error) {
@@ -34,16 +34,13 @@ const EditEntry: React.FC<{ params: { id: string } }> = ({ params }) => {
     event.preventDefault();
     setIsSubmitting(true);
 
+    const data = {
+      title: title,
+      content: content
+    };
+    
     try {
-      const response = await fetch(`http://localhost:3000/api/journal/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ title, content }),
-      });
-
-      const data = await response.json();
+      await editEntry(id,data)
 
       console.log('Entry updated successfully!', data);
     } catch (error) {

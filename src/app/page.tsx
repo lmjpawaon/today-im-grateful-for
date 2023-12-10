@@ -1,17 +1,10 @@
 import Link from "next/link";
-import type { JournalType } from "../../lib/types/JournalType";
+import type { JournalType } from "../lib/types/JournalType";
+import { getAllEntries } from "./actions";
 
 const Home: React.FC = async () => {
-  const fetchEntries = async () => {
-    const response = await fetch('http://localhost:3000/api/journal', {
-      next: {
-        revalidate: 30
-      }
-    });
-    return response.json()
-  };
 
-  const entries: Record<string, { entries: JournalType[] }> = await fetchEntries();
+  const entries: Record<string, { entries: JournalType[] }> = await getAllEntries();
 
   if (Object.keys(entries).length === 0) {
     console.error('No entries data found');

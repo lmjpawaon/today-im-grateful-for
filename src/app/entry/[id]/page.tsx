@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import type { JournalType } from "../../../../lib/types/JournalType";
+import type { JournalType } from "../../../lib/types/JournalType";
 import { useEffect, useState } from "react";
+import { deleteEntry, getSpecificEntry } from "../../actions";
 
 const EntryDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
   const id = params.id;
@@ -12,12 +13,7 @@ const EntryDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
 
   useEffect(() => {
     const fetchEntries = async () => {
-      const response = await fetch(`http://localhost:3000/api/journal/${id}`, {
-        next: {
-          revalidate: 0,
-        },
-      });
-      const data = await response.json();
+      const data = await getSpecificEntry(id)
       setEntries(data);
     };
 
@@ -26,12 +22,8 @@ const EntryDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
 
   const handleDeleteEntry = async (id: string) => {
     try {
-      await fetch(`http://localhost:3000/api/journal/${id}`, {
-        method: "DELETE",
-      });
+      await deleteEntry(id)
       console.log("Entry deleted successfully!");
-      setEntries(entries.filter(entry => entry.id !== id));
-      router.push("/entry");
     } catch (error) {
       console.error("Error deleting entry:", error);
     }
