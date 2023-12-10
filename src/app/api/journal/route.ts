@@ -1,6 +1,6 @@
-import { prisma } from "../../../../lib/prisma";
+import { prisma } from "../../../lib/prisma";
 import { NextResponse, NextRequest } from "next/server";
-import type { JournalType } from "../../../../lib/types/JournalType";
+import type { JournalType } from "../../../lib/types/JournalType";
 
 interface GroupedEntries {
   [date: string]: {
