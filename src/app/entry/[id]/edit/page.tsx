@@ -1,12 +1,26 @@
 "use client"
+import { useEffect, useState } from 'react';
 
-import { redirect } from "next/navigation";
-import React, { useState } from "react";
+const EditEntry: React.FC<{ params: { id: string } }> = ({ params }) => {
+  const { id } = params;
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-const CreateEntry: React.FC = () => {
-  const [title, setTitle] = useState(""); // For storing title
-  const [content, setContent] = useState(""); // For storing content
-  const [isSubmitting, setIsSubmitting] = useState(false); // For loading state
+  useEffect(() => {
+    const fetchEntry = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/api/journal/${id}`);
+        const entry = await response.json();
+        setTitle(entry[0]?.title || '');
+        setContent(entry[0]?.content || '');
+      } catch (error) {
+        console.error('Error fetching entry:', error);
+      }
+    };
+
+    fetchEntry();
+  }, [id]);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -21,33 +35,29 @@ const CreateEntry: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // Replace this with your actual API call or Prisma client usage
-      const response = await fetch("http://localhost:3000/api/journal", {
-        method: "POST",
+      const response = await fetch(`http://localhost:3000/api/journal/${id}`, {
+        method: 'PATCH',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ title, content }), // Send title and content data
+        body: JSON.stringify({ title, content }),
       });
 
       const data = await response.json();
 
-      // Handle successful creation (e.g., navigate, display success message)
-      console.log("Entry created successfully!", data);
-      setIsSubmitting(false);
-      // Reset form
-      setTitle("");
-      setContent("");
+      console.log('Entry updated successfully!', data);
     } catch (error) {
-      console.error("Error creating entry:", error);
+      console.error('Error updating entry:', error);
+    } finally {
       setIsSubmitting(false);
-      // Handle error (e.g., display error message)
+      // Redirect to entry page after successful update
     }
+
   };
 
   return (
     <div>
-      <h1>Create New Entry</h1>
+      <h1>Edit Journal Entry {id}</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="title">Title:</label>
@@ -70,11 +80,11 @@ const CreateEntry: React.FC = () => {
           />
         </div>
         <button disabled={isSubmitting} type="submit">
-          {isSubmitting ? "Submitting..." : "Create"}
+          {isSubmitting ? 'Updating...' : 'Update'}
         </button>
       </form>
     </div>
   );
 };
 
-export default CreateEntry;
+export default EditEntry;
