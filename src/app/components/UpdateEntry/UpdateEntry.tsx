@@ -1,6 +1,7 @@
 "use client"
 import { editEntry, getSpecificEntry } from '../../actions';
 import { useEffect, useState } from 'react';
+import { lato, raleway } from '../../../styles/fonts';
 
 const UpdateEntry: React.FC<{ params: { id: string } }> = ({ params }) => {
     const { id } = params;
@@ -53,31 +54,36 @@ const UpdateEntry: React.FC<{ params: { id: string } }> = ({ params }) => {
     };
   
     return (
-      <div>
-        <h1>Edit Journal Entry {id}</h1>
+      <div className="max-w-2xl mx-auto mt-8">
+        <h1 className={`${lato.variable} text-2xl font-bold mb-4`}>Update Entry</h1>
         <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="title">Title:</label>
+          <div className="mb-4">
             <input
               type="text"
               id="title"
               value={title}
               onChange={handleTitleChange}
               placeholder="Enter a title (optional)"
+              className={`${lato.variable} font-extrabold border p-2 w-full rounded-md focus:outline-none focus:ring focus:border-accent-300`}
             />
           </div>
-          <div>
-            <label htmlFor="content">Content:</label>
+          <div className="mb-4">
             <textarea
               id="content"
               value={content}
+              style={{fontFamily: `${raleway.variable}`}}
               onChange={handleContentChange}
               placeholder="Write your entry here..."
               rows={10}
+              className={`${raleway.variable} border p-2 w-full rounded-md focus:outline-none focus:ring focus:border-blue-300`}
             />
           </div>
-          <button disabled={isSubmitting} type="submit">
-            {isSubmitting ? 'Updating...' : 'Update'}
+          <button
+            disabled={isSubmitting}
+            type="submit"
+            className="bg-primary text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+          >
+            {isSubmitting ? "Submitting..." : "Update"}
           </button>
         </form>
       </div>

@@ -15,17 +15,17 @@ const DisplayEntry: React.FC = async () => {
     return (
         <div>
         {Object.entries(entries).map(([date, { entries }]) => (
-          <div key={date} className="border p-4 mb-4 rounded-md">
+          <div key={date} className={`${nunito.variable} border p-4 mb-4 rounded-md font`}>
             <h2 className="text-xl font-bold mb-2">{date}</h2>
             <ul>
               {entries.map((entry: JournalType) => (
                 <li key={entry.id} className="border p-2 mb-2 rounded-md">
                   {entry.title ? (
-                    <Link href={`/entry/${entry.id}`} className={raleway.className}>
+                    <Link href={`/entry/${entry.id}`} className={`${lato.variable}`}>
                       {entry.title}
                     </Link>
                   ) : (
-                    <div>Content: {entry.content}</div>
+                    <div className={`${raleway.variable}`}>Content: {entry.content}</div>
                   )}
                 </li>
               ))}

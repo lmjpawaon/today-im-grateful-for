@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { createEntry } from "../../actions";
-import BackButton from "../Reusable/BackButton";
+import { lato, raleway } from "../../../styles/fonts";
 
 const EntryForm: React.FC = () => {
     const [title, setTitle] = useState(""); // For storing title
@@ -43,8 +43,7 @@ const EntryForm: React.FC = () => {
   
     return (
         <div className="max-w-2xl mx-auto mt-8">
-        <BackButton/>
-        <h1>Create New Entry</h1>
+        <h1 className={`${lato.variable} text-2xl font-bold mb-4`}>Create New Entry</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <input
@@ -53,7 +52,7 @@ const EntryForm: React.FC = () => {
               value={title}
               onChange={handleTitleChange}
               placeholder="Enter a title (optional)"
-              className="border p-2 w-full rounded-md focus:outline-none focus:ring focus:border-blue-300"
+              className={`${lato.variable} font-extrabold border p-2 w-full rounded-md focus:outline-none focus:ring focus:border-blue-300`}
             />
           </div>
           <div className="mb-4">
@@ -63,13 +62,13 @@ const EntryForm: React.FC = () => {
               onChange={handleContentChange}
               placeholder="Write your entry here..."
               rows={10}
-              className="border p-2 w-full rounded-md focus:outline-none focus:ring focus:border-blue-300"
+              className={`${raleway.variable} border p-2 w-full rounded-md focus:outline-none focus:ring focus:border-blue-300`}
             />
           </div>
           <button
             disabled={isSubmitting}
             type="submit"
-            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+            className="bg-primary text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
           >
             {isSubmitting ? "Submitting..." : "Create"}
           </button>
