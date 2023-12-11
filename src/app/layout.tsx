@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import { lato, raleway } from '../styles/fonts'
-
-const inter = Inter({ subsets: ['latin'] })
+import NavBar from './components/NavBar/NavBar'
 
 export const metadata: Metadata = {
   title: "Today I'm Grateful For",
@@ -16,8 +14,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={raleway.className}>{children}</body>
+    <html lang="en" className='bg-background text-text'>
+      <body>
+        <NavBar/>
+        {children}
+      </body>
     </html>
   )
 }
