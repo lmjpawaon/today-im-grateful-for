@@ -26,7 +26,7 @@ export async function GET() {
           };
         }
         groupedEntries[date].entries.push({
-          id: entry.id.toString(), // Convert id to string if needed
+          id: entry.id.toString(), 
           title: entry.title ?? undefined,
           content: entry.content,
           createdAt: entry.createdAt,
@@ -48,16 +48,9 @@ export async function POST(req: NextResponse) {
   try {
     const data = await req.json();
 
-    // Validate data (optional)
-    // You can add validation rules here to ensure required fields are present, etc.
-    // const errors = validateEntry(data);
-    // if (errors) return NextResponse.json({ errors }, { status: 400 });
-
     const entry = await prisma.journalEntry.create({
       data: {
-        // Map request data to prisma model fields
         ...data,
-        // Add additional fields or transformations if needed
         createdAt: new Date(),
         modifiedAt: new Date(),
       },
