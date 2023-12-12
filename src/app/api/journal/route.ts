@@ -1,5 +1,5 @@
 import { prisma } from "../../../lib/prisma";
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse} from "next/server";
 import type { JournalType } from "../../../lib/types/JournalType";
 
 interface GroupedEntries {
@@ -47,7 +47,12 @@ export async function GET() {
 export async function POST(req: NextResponse) {
   try {
     const data = await req.json();
+    console.log(data)
 
+    if (!data.title || data.title === "") {
+      data.title = "Untitled";
+    }
+    
     const entry = await prisma.journalEntry.create({
       data: {
         ...data,
@@ -56,7 +61,7 @@ export async function POST(req: NextResponse) {
       },
     });
 
-    return NextResponse.json(data);
+    return NextResponse.json(entry);
   } catch (error) {
     console.error("Error creating journal entry:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
