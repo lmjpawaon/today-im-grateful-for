@@ -25,7 +25,9 @@ const DisplayEntry: React.FC = async () => {
                       {entry.title}
                     </Link>
                   ) : (
-                    <div className={`${raleway.variable}`}>Content: {entry.content}</div>
+                    <Link href={`/entry/${entry.id}`}>
+                      <div className={`${raleway.variable}`}>{entry.content}</div>
+                    </Link>  
                   )}
                 </li>
               ))}

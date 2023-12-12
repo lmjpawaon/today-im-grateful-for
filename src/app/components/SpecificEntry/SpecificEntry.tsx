@@ -5,17 +5,24 @@ import type { JournalType } from "../../../lib/types/JournalType";
 import { useEffect, useState } from "react";
 import { deleteEntry, getSpecificEntry } from "../../actions";
 import { lato, nunito, raleway } from "../../../styles/fonts";
+import Loading from "../Reusable/Loading";
 
 const SpecificEntry: React.FC<{ params: { id: string } }> = ({ params }) => {
     const id = params.id;
+    const [isLoading, setIsLoading] = useState(true);
     const [entries, setEntries] = useState<JournalType[]>([]);
   
     useEffect(() => {
       const fetchEntries = async () => {
-        const data = await getSpecificEntry(id)
-        setEntries(data);
+        setIsLoading(true);
+        try {
+          const data = await getSpecificEntry(id);
+          setEntries(data);
+        } finally {
+          setIsLoading(false);
+        }
       };
-  
+    
       fetchEntries();
     }, [id]);
   
@@ -36,6 +43,8 @@ const SpecificEntry: React.FC<{ params: { id: string } }> = ({ params }) => {
   
     return (
       <div className="max-w-2xl mx-auto mt-8">
+        {isLoading && (
+        <Loading/>)}
         {entries.map((entry: JournalType) => (
           <div key={entry.id} className="mb-8 p-4 border rounded-md">
             <h1 className={`${lato.variable} text-2xl font-bold mb-4`}>{entry.title || 'Untitled'}</h1>
