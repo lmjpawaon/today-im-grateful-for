@@ -44,40 +44,37 @@ describe("UpdateEntry component", () => {
   });
 
 test("handles form submission", async () => {
-    // Mock the getSpecificEntry action with resolved data
-    (actions.getSpecificEntry as jest.Mock).mockResolvedValue(mockEntry);
-    
-    // Render the component
-    render(<UpdateEntry params={{ id: entryId }} />);
-    
-    // Wait for the asynchronous call to complete and update the component
-    await waitFor(() => {
-      // Assert that the form elements are present after the data is fetched
-      expect(screen.getByPlaceholderText("Enter a title (optional)")).toBeInTheDocument();
-      expect(screen.getByPlaceholderText("Write your entry here...")).toBeInTheDocument();
-    });
-  
-    // Get input elements
-    const titleInput = screen.getByPlaceholderText("Enter a title (optional)") as HTMLInputElement;
-    const contentInput = screen.getByPlaceholderText("Write your entry here...") as HTMLTextAreaElement;
-    const submitButton = screen.getByRole("button", { name: /Update/i });
-  
-    // Simulate user input
-    fireEvent.change(titleInput, { target: { value: "New Title" } });
-    fireEvent.change(contentInput, { target: { value: "New Content" } });
-  
-    // Submit the form
-    await act(async () => {
-      fireEvent.click(submitButton);
-      // Wait for the asynchronous update action to complete
-      await waitFor(() => {
-        // Assert that the editEntry action is called with the correct data
-        expect(actions.editEntry).toHaveBeenCalledWith(entryId, {
-          title: "New Title",
-          content: "New Content",
-        });
-      });
-    });
+  // Mock the getSpecificEntry action with resolved data
+  (actions.getSpecificEntry as jest.Mock).mockResolvedValue(mockEntry);
+
+  // Render the component
+  render(<UpdateEntry params={{ id: entryId }} />);
+
+  // Wait for the asynchronous call to complete and update the component
+  await waitFor(() => {
+    // Assert that the form elements are present after the data is fetched
+    expect(screen.getByPlaceholderText("Enter a title (optional)")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Write your entry here...")).toBeInTheDocument();
   });
+
+  // Get input elements
+  const titleInput = screen.getByPlaceholderText("Enter a title (optional)") as HTMLInputElement;
+  const contentInput = screen.getByPlaceholderText("Write your entry here...") as HTMLTextAreaElement;
+  const submitButton = screen.getByRole("button", { name: /Update/i });
+
+  // Simulate user input
+  fireEvent.change(titleInput, { target: { value: "New Title" } });
+  fireEvent.change(contentInput, { target: { value: "New Content" } });
+  fireEvent.click(submitButton);
+
+  // Submit the form
+  await act(async () => {
+    expect(actions.editEntry).toHaveBeenCalledWith(entryId, {
+      title: "New Title",
+      content: "New Content",
+    });
+});
   
+});
+
 });
